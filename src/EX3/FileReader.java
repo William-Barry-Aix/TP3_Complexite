@@ -1,8 +1,5 @@
 package EX3;
 
-import EX3.TxtToMat;
-import org.w3c.dom.ls.LSOutput;
-
 import java.io.FileNotFoundException;
 
 public class FileReader {
@@ -14,6 +11,7 @@ public class FileReader {
 
         System.out.println("\nTranslating into SAT...\n");
         MatToSAT sat = new MatToSAT(mat);
+        sat.process();
         sat.export();
         sat.printClauses();
         System.out.println("\n...Done");
