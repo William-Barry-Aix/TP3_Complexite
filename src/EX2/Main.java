@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args) {
-        int[][] graph = TxtToGraph.convert("graph.txt");
+    public static void main(String[] args) throws IOException {
+        long startTime = System.nanoTime();
+        int[][] graph = TxtToGraph.convert("graph3.txt");
+        String path = "DIMACSGraph.CNF";
         printGraph(graph);
-        GraphToSAT graphToSAT = new GraphToSAT(graph, 3);
+        GraphToSAT graphToSAT = new GraphToSAT(graph, 6);
         try {
             graphToSAT.process();
         } catch (FileNotFoundException e) {
@@ -19,11 +21,23 @@ public class Main {
         }
         graphToSAT.printClauses();
         try {
-            graphToSAT.export();
+            graphToSAT.export(path);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        testResult();
+        Process p;
+        p = Runtime.getRuntime().exec("./MiniSat_v1.14_linux DIMACSGraph.CNF affectationGraph.txt");
+        try {
+            p.waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        p.destroy();
+
+        long endTime = System.nanoTime();
+
+        System.out.println("Duration: " + (endTime - startTime)/1000000000.0);
+
     }
 
     public static void testResult(){

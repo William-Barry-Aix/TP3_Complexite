@@ -20,13 +20,16 @@ public class GraphToSAT {
         this.clauses = new ArrayList<>();
     }
     public void process() throws FileNotFoundException {
+        //O(n * k)
         firstConstraint();
+        //O(n * k^2)
         secondConstraint();
+        //O(n^2 * k^2)
         thirdConstraint();
     }
 
-    public void export() throws FileNotFoundException{
-        PrintWriter writer = new PrintWriter("DIMACSGraph.CNF");
+    public void export(String path) throws FileNotFoundException{
+        PrintWriter writer = new PrintWriter(path);
         writer.println("p cnf " + nbVariables + " " + nbClauses);
         for(ArrayList<Integer> clause : clauses){
             StringBuilder stringBuilder = new StringBuilder();
@@ -40,6 +43,7 @@ public class GraphToSAT {
         writer.close();
     }
 
+    //O(n * k)
     private void firstConstraint(){
         for (int i = 0; i < k; i++) {
             ArrayList<Integer> clause = new ArrayList<>();
@@ -51,7 +55,7 @@ public class GraphToSAT {
             nbClauses++;
         }
     }
-
+    //O(n * k^2)
     private void secondConstraint(){
         for (int i = 0; i < nbSommets; i++) {
             for (int j = 0; j < k; j++) {
@@ -67,7 +71,7 @@ public class GraphToSAT {
             }
         }
     }
-
+    //O(n^2 * k^2)
     private void thirdConstraint(){
         for (int i = 0; i < nbSommets; i++) {
             for (int j = 0; j < k; j++) {

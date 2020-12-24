@@ -12,14 +12,17 @@ public class FNC {
         this.nbClause = nbClause;
         this.clauses = clauses;
     }
-
+    //Taille de fillings = nombre de variables.
     public boolean testAssignment(ArrayList<Integer> fillings){
         List<List<Integer>> clausesTmp = new ArrayList<>(clauses);
 
         System.out.println(clausesTmp);
+        //Pour chaque variable
         for (int var = 0; var < fillings.size(); var++){
+            //Pour chaque clause
             for (int clauseId = 0; clauseId < clausesTmp.size(); clauseId++){
                 List<Integer> clause = clausesTmp.get(clauseId);
+                //Pour chaque variable dans la clause
                 for (int varId = 0; varId < clause.size(); varId++){
                     if (Math.abs(fillings.get(var))  == Math.abs(clause.get(varId))){
                         if (fillings.get(var) * clause.get(varId) < 0){
